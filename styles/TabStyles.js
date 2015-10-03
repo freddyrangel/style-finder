@@ -2,29 +2,19 @@
 
 var React = require('react-native');
 var {
-  AppRegistry,
-  StyleSheet,
-  Text,
-  View,
+  StyleSheet
 } = React;
 
-var Styles = StyleSheet.create({
-  container: {
+var TabStyles = StyleSheet.create({
+  tabContent: {
     flex: 1,
-    justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: '#F5FCFF',
+    alignSelf: 'flex-end'
   },
-  welcome: {
-    fontSize: 20,
-    textAlign: 'center',
-    margin: 10,
-  },
-  instructions: {
-    textAlign: 'center',
-    color: '#333333',
-    marginBottom: 5,
+  tabText: {
+    color: 'white',
+    margin: 50,
   },
 });
 
-module.exports = Styles;
+module.exports = TabStyles;

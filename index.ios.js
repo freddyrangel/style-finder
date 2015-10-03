@@ -1,27 +1,45 @@
 'use strict';
 
-var React = require('react-native');
+var React         = require('react-native');
+var uuid          = require('node-uuid');
+var BrowseTabView = require('./components/BrowseTabView.js');
+var TabBar        = require('./components/TabBar.js');
+var BASE_URL      = 'https://ed2ulg2d5i.execute-api.us-west-2.amazonaws.com/prod';
+var styles        = require('./styles/AppStyles.js')
 var {
   AppRegistry,
-  StyleSheet,
-  Text,
-  View,
+  View
 } = React;
-
-var BrowseTab = require('./components/BrowseTab.js');
-var TabStyles = require('./styles/TabStyles.js');
-var BASE_URL = "https://ed2ulg2d5i.execute-api.us-west-2.amazonaws.com/prod";
 
 var App = React.createClass({
 
   getInitialState: function() {
-    return { data: [] };
+    return {
+      data: [],
+      currentImageIndex: 0,
+      selectedTab: 'browse'
+    };
   },
 
   render: function() {
-    var jobId = this.state.jobId;
-    var data  = this.state.data;
-    return <BrowseTab data={data} />
+    var tabView = this.renderRightTabView();
+    return (
+      <View style={styles.container}>
+        {tabView}
+        <TabBar selectedTab={this.state.selectedTab} changeTab={this.changeTab}/>
+      </View>
+    );
+  },
+
+  renderRightTabView: function() {
+    var selectedTab = this.state.selectedTab;
+    if (selectedTab === 'liked') {
+    } else {
+      return <BrowseTabView
+        data={this.state.data}
+        likePhoto={this.likePhoto}
+        currentImageIndex={this.state.currentImageIndex}/>
+    }
   },
 
   componentDidMount: function() {
@@ -30,8 +48,12 @@ var App = React.createClass({
     }
   },
 
+  changeTab: function(selectedTab) {
+    this.setState({selectedTab: selectedTab});
+  },
+
   getJobId: function() {
-    var locationURL = BASE_URL + "/location";
+    var locationURL = BASE_URL + '/location';
     var that = this;
 
     navigator.geolocation.getCurrentPosition(
@@ -57,7 +79,7 @@ var App = React.createClass({
           function(error) {
             console.warn('Something went wrong getting the position:', error);
           }
-        );
+        ).done();
       },
       function(error) {
         console.warn('something went wrong', error);
@@ -85,7 +107,7 @@ var App = React.createClass({
       function(error) {
         console.warn('Something went wrong getting job:', error);
       }
-    );
+    ).done();
   },
 
   cleanData: function(rawData) {
@@ -94,10 +116,11 @@ var App = React.createClass({
       var photoArray = salon.photos.map(function(photo) {
         var newPhotoObj = {
           url: photo.url,
+          uuid: uuid.v4(),
           salonData: {
             name: salon.name,
             yelpUrl: salon.yelpUrl
-          }
+          },
         };
         return newPhotoObj;
       });
@@ -106,6 +129,23 @@ var App = React.createClass({
       return previousArray.concat(nextArray);
     });
     return cleanedData;
+  },
+
+  likePhoto: function(uuid) {
+    var photos = this.state.data;
+    photos.forEach(function(photo) {
+      if (photo.uuid === uuid) { photo.liked = true; }
+    });
+    this.setState({
+      photos: photos,
+      currentImageIndex: this.incrementImageIndex()
+    });
+  },
+
+  incrementImageIndex: function() {
+    var currentImageIndex = this.state.currentImageIndex;
+    if (currentImageIndex < this.state.data.length - 1) {currentImageIndex += 1;}
+    return currentImageIndex;
   }
 });
 
