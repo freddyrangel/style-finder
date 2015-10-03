@@ -13,7 +13,10 @@ var PhotoViewer = React.createClass({
     return (
       <View>
         <Image source={{uri: photo.url}} style={{width: 200, height: 200}} />
-        <LikeDislikeTab photo={photo} likePhoto={this.props.likePhoto.bind(null, photo.uuid)}/>
+        <LikeDislikeTab
+          photo={photo}
+          likePhoto={this.props.likePhoto.bind(null, photo.uuid)}
+          dislikePhoto={this.props.dislikePhoto.bind(null, photo.uuid)}/>
       </View>
     );
   },

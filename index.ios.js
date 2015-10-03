@@ -2,7 +2,6 @@
 
 var React         = require('react-native');
 var uuid          = require('node-uuid');
-var BrowseTabView = require('./components/BrowseTabView.js');
 var TabBar        = require('./components/TabBar.js');
 var BASE_URL      = 'https://ed2ulg2d5i.execute-api.us-west-2.amazonaws.com/prod';
 var styles        = require('./styles/AppStyles.js')
@@ -14,42 +13,19 @@ var {
 var App = React.createClass({
 
   getInitialState: function() {
-    return {
-      data: [],
-      currentImageIndex: 0,
-      selectedTab: 'browse'
-    };
+    return { photos: [] };
   },
 
   render: function() {
-    var tabView = this.renderRightTabView();
     return (
-      <View style={styles.container}>
-        {tabView}
-        <TabBar selectedTab={this.state.selectedTab} changeTab={this.changeTab}/>
-      </View>
+      <TabBar photos={this.state.photos}
+        likePhoto={this.likePhoto}
+        dislikePhoto={this.dislikePhoto}/>
     );
   },
 
-  renderRightTabView: function() {
-    var selectedTab = this.state.selectedTab;
-    if (selectedTab === 'liked') {
-    } else {
-      return <BrowseTabView
-        data={this.state.data}
-        likePhoto={this.likePhoto}
-        currentImageIndex={this.state.currentImageIndex}/>
-    }
-  },
-
   componentDidMount: function() {
-    if (!this.state.jobId) {
-      this.getJobId();
-    }
-  },
-
-  changeTab: function(selectedTab) {
-    this.setState({selectedTab: selectedTab});
+    if (!this.state.jobId) this.getJobId();
   },
 
   getJobId: function() {
@@ -102,7 +78,7 @@ var App = React.createClass({
     })
     .then(
       function(response) {
-        this.setState({ data: this.cleanData(response) });
+        this.setState({ photos: this.cleanPhotoData(response) });
       }.bind(this),
       function(error) {
         console.warn('Something went wrong getting job:', error);
@@ -110,7 +86,7 @@ var App = React.createClass({
     ).done();
   },
 
-  cleanData: function(rawData) {
+  cleanPhotoData: function(rawData) {
     var salonData = JSON.parse(rawData._bodyText).salonData;
     var cleanedData = salonData.map(function(salon) {
       var photoArray = salon.photos.map(function(photo) {
@@ -132,20 +108,19 @@ var App = React.createClass({
   },
 
   likePhoto: function(uuid) {
-    var photos = this.state.data;
-    photos.forEach(function(photo) {
-      if (photo.uuid === uuid) { photo.liked = true; }
-    });
-    this.setState({
-      photos: photos,
-      currentImageIndex: this.incrementImageIndex()
-    });
+    this.updatePhotoLike(uuid, true);
   },
 
-  incrementImageIndex: function() {
-    var currentImageIndex = this.state.currentImageIndex;
-    if (currentImageIndex < this.state.data.length - 1) {currentImageIndex += 1;}
-    return currentImageIndex;
+  dislikePhoto: function(uuid) {
+    this.updatePhotoLike(uuid, false);
+  },
+
+  updatePhotoLike: function(uuid, status) {
+    var photos = this.state.photos;
+    photos.forEach(function(photo) {
+      if (photo.uuid === uuid) photo.liked = status;
+    });
+    this.setState({ photos: photos });
   }
 });
 

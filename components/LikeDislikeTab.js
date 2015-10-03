@@ -16,7 +16,7 @@ var LikeDislikeTab = React.createClass({
           <Text style={styles.text} onPress={this.props.likePhoto}>+</Text>
         </View>
         <View style={styles.dislike}>
-          <Text style={styles.text}>-</Text>
+          <Text style={styles.text} onPress={this.props.dislikePhoto}>-</Text>
         </View>
       </View>
     );

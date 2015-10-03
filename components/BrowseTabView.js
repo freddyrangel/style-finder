@@ -10,17 +10,40 @@ var {
 
 var BrowseTabView = React.createClass({
 
+  getInitialState: function() {
+    return {
+      currentImageIndex: 0
+    };
+  },
+
   render: function() {
-    var data = this.props.data;
+    var photos = this.props.photos;
     return (
       <View style={TabStyles.container}>
         <Title styles={TabStyles} text={'Browse'}/>
         <PhotoList
-          data={this.props.data}
-          likePhoto={this.props.likePhoto}
-          currentImageIndex={this.props.currentImageIndex}/>
+          photos={photos}
+          likePhoto={this.likePhoto}
+          dislikePhoto={this.dislikePhoto}
+          currentImageIndex={this.state.currentImageIndex}/>
       </View>
     );
+  },
+
+  likePhoto: function(uuid) {
+    this.props.likePhoto(uuid);
+    this.setState({currentImageIndex: this.incrementImageIndex()});
+  },
+
+  dislikePhoto: function(uuid) {
+    this.props.dislikePhoto(uuid);
+    this.setState({currentImageIndex: this.incrementImageIndex()});
+  },
+
+  incrementImageIndex: function() {
+    var currentImageIndex = this.state.currentImageIndex;
+    if (currentImageIndex < this.props.photos.length - 1) {currentImageIndex += 1;}
+    return currentImageIndex;
   }
 });
 

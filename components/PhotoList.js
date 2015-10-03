@@ -8,12 +8,16 @@ var {
 
 var PhotoList = React.createClass({
   render: function() {
-    var photoData = this.props.data;
+    var photoData = this.props.photos;
     var photo = photoData[this.props.currentImageIndex];
     if (photoData.length < 1) {
       return <Text>Loading Data</Text>
     } else {
-      return <PhotoViewer photo={photo} likePhoto={this.props.likePhoto}/>
+      return (
+        <PhotoViewer photo={photo}
+          likePhoto={this.props.likePhoto}
+          dislikePhoto={this.props.dislikePhoto}/>
+      );
     }
   }
 
