@@ -10,13 +10,13 @@ var LikeDislikeTabStyles = StyleSheet.create({
     flexDirection: 'row',
     paddingBottom: 100
   },
-  like: {
+  dislike: {
     flexDirection: 'row',
     justifyContent: 'center',
     alignItems: 'center',
     width: 125
   },
-  dislike: {
+  like: {
     flexDirection: 'row',
     justifyContent: 'center',
     alignItems: 'center',

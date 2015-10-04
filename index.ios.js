@@ -50,8 +50,8 @@ var App = React.createClass({
         .then(
           function(response) {
             var jobId = JSON.parse(response._bodyText).jobId
-            this.getJob(jobId);
-          }.bind(that),
+            that.getJob(jobId);
+          },
           function(error) {
             console.warn('Something went wrong getting the position:', error);
           }
