@@ -15,6 +15,9 @@ var TabStyles = StyleSheet.create({
     color: 'white',
     margin: 50,
   },
+  meow: {
+    backgroundColor: 'black'
+  }
 });
 
 module.exports = TabStyles;

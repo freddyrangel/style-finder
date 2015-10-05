@@ -19,7 +19,7 @@ var PhotoViewer = React.createClass({
           dislikePhoto={this.props.dislikePhoto.bind(null, photo.uuid)}/>
       </View>
     );
-  },
+  }
 });
 
 module.exports = PhotoViewer;

@@ -4,7 +4,6 @@ var React         = require('react-native');
 var uuid          = require('node-uuid');
 var TabBar        = require('./components/TabBar.js');
 var BASE_URL      = 'https://ed2ulg2d5i.execute-api.us-west-2.amazonaws.com/prod';
-var styles        = require('./styles/AppStyles.js')
 var {
   AppRegistry,
   View
@@ -20,7 +19,8 @@ var App = React.createClass({
     return (
       <TabBar photos={this.state.photos}
         likePhoto={this.likePhoto}
-        dislikePhoto={this.dislikePhoto}/>
+        dislikePhoto={this.dislikePhoto}
+        getLikedPhotos={this.getLikedPhotos}/>
     );
   },
 

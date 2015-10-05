@@ -7,22 +7,36 @@ var {
 
 var LikeDislikeTabStyles = StyleSheet.create({
   container: {
-    flexDirection: 'row',
-    paddingBottom: 100
-  },
-  dislike: {
+    flex: 1,
+    marginTop: 40,
     flexDirection: 'row',
     justifyContent: 'center',
-    alignItems: 'center',
-    width: 125
+    alignItems: 'center'
   },
-  like: {
-    flexDirection: 'row',
+
+  dislikeText: {
     justifyContent: 'center',
     alignItems: 'center',
+    textAlign: 'center',
+    fontSize: 60,
+    color: '#FF0000',
+    backgroundColor: 'darkslateblue',
+    width: 75,
+    height: 75,
+    borderRadius: 37,
+    marginRight: 50
   },
-  text: {
-    fontSize: 60
+
+  likeText: {
+    justifyContent: 'center',
+    alignItems: 'center',
+    textAlign: 'center',
+    fontSize: 60,
+    color: '#00FF00',
+    backgroundColor: 'darkslateblue',
+    width: 75,
+    height: 75,
+    borderRadius: 37
   }
 });
 

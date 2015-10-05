@@ -1,8 +1,8 @@
 'use strict';
 
 var React         = require('react-native');
-var styles        = require('../styles/TabStyles.js');
 var BrowseTabView = require('./BrowseTabView.js');
+var LikedTabView  = require('./LikedTabView.js')
 var {
   TabBarIOS,
   View,
@@ -33,7 +33,8 @@ var TabBar = React.createClass({
           title={'Liked'}
           selected={selectedTab === 'liked'}
           onPress={this.changeTab.bind(null, 'liked')}>
-          <View></View>
+          <LikedTabView
+            photos={this.props.photos}/>
         </TabBarIOS.Item>
       </TabBarIOS>
     );
